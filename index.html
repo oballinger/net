@@ -1,0 +1,431 @@
+<script>
+function magnify(imgID, zoom) {
+  var img, glass, w, h, bw;
+  img = document.getElementById(imgID);
+  /*create magnifier glass:*/
+  glass = document.createElement("DIV");
+  glass.setAttribute("class", "img-magnifier-glass");
+  /*insert magnifier glass:*/
+  img.parentElement.insertBefore(glass, img);
+  /*set background properties for the magnifier glass:*/
+  glass.style.backgroundImage = "url('" + img.src + "')";
+  glass.style.backgroundRepeat = "no-repeat";
+  glass.style.backgroundSize = (img.width * zoom) + "px " + (img.height * zoom) + "px";
+  bw = 3;
+  w = glass.offsetWidth / 2;
+  h = glass.offsetHeight / 2;
+  /*execute a function when someone moves the magnifier glass over the image:*/
+  glass.addEventListener("mousemove", moveMagnifier);
+  img.addEventListener("mousemove", moveMagnifier);
+  /*and also for touch screens:*/
+  glass.addEventListener("touchmove", moveMagnifier);
+  img.addEventListener("touchmove", moveMagnifier);
+  function moveMagnifier(e) {
+    var pos, x, y;
+    /*prevent any other actions that may occur when moving over the image*/
+    e.preventDefault();
+    /*get the cursor's x and y positions:*/
+    pos = getCursorPos(e);
+    x = pos.x;
+    y = pos.y;
+    /*prevent the magnifier glass from being positioned outside the image:*/
+    if (x > img.width - (w / zoom)) {x = img.width - (w / zoom);}
+    if (x < w / zoom) {x = w / zoom;}
+    if (y > img.height - (h / zoom)) {y = img.height - (h / zoom);}
+    if (y < h / zoom) {y = h / zoom;}
+    /*set the position of the magnifier glass:*/
+    glass.style.left = (x - w) + "px";
+    glass.style.top = (y - h) + "px";
+    /*display what the magnifier glass "sees":*/
+    glass.style.backgroundPosition = "-" + ((x * zoom) - w + bw) + "px -" + ((y * zoom) - h + bw) + "px";
+  }
+  function getCursorPos(e) {
+    var a, x = 0, y = 0;
+    e = e || window.event;
+    /*get the x and y positions of the image:*/
+    a = img.getBoundingClientRect();
+    /*calculate the cursor's x and y coordinates, relative to the image:*/
+    x = e.pageX - a.left;
+    y = e.pageY - a.top;
+    /*consider any page scrolling:*/
+    x = x - window.pageXOffset;
+    y = y - window.pageYOffset;
+    return {x : x, y : y};
+  }
+}
+</script>
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-154866877-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-154866877-1');
+	</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.9.0/css/all.css"
+      integrity="sha384-i1LQnF23gykqWXg6jxC2ZbCbUMxyw5gLZY6UiUS98LYV5unm8GWmfkIS6jqJfb4E" crossorigin="anonymous" />
+    <link rel="stylesheet" href="assets/css/style.css">
+    <title>Ollie Ballinger - Identifying Child Soldiers in Kurdistan </title>
+  </head>
+	
+    <!-- NAVIGATION -->
+    
+	<!--
+	<nav class="nav">
+	      <ul class="nav__list">
+		<li class="nav__left">
+		  <ul>
+		    <li><a href="#"><i class="fas fa-bars"></i></a></li>
+		    <li><a href="#"><i class="fas fa-search"></i></a></li>
+		    <li><a class="link--black" href="#">WORLD</a></li>
+		  </ul>
+		</li>
+		<li><a href="#"><img class="logo" src="assets/img/logo.png" alt="The New York Times logo"></a></li>
+		<li class="nav__right">
+		  <ul>
+		    <li><button class="btn-default">SUBSCRIBE NOW</button></li>
+		  </ul>
+		</li>
+	      </ul>
+	    </nav>
+	  -->
+
+    <!-- MAIN CONTENT -->
+<body>
+<main>
+      <article>
+		<div class="img-magnifier-container">
+			<img id="myimage" src="assets/img/mosaic_5.jpg">	
+			<script>
+				 magnify("myimage", 15)
+			</script>
+		</div>
+        <header>
+          
+	<h1><em>Identifying Child Soldiers in Kurdistan</em></h1>
+        </header>
+    
+        <!-- SECTION CONTENT -->
+        <div class="article__content">
+          <div class="article--center">
+<p>
+	In 2017, Human Rights Watch issued a
+	<a
+	  href="https://www.hrw.org/news/2016/12/22/iraq-armed-groups-using-child-soldiers-0"
+	  >report</a
+	>
+	documenting 29 cases of child recruitment by the Kurdistan Workers’ Party (PKK)
+	and affiliated groups. To compile the report, HRW conducted dozens of in-person
+	interviews in Iraq during a period of intense fighting. While this type of work
+	is invaluable, it is also extremely difficult, dangerous, and expensive. It also
+	offers a very limited window into the phenomenon of child recruitment. The small
+	number of documented cases means that we can’t reliably estimate the overall
+	number of child soldiers, understand how
+	recruitment patterns evolve over time, or know which demographics are most at
+	risk.
+</p>
+<p></p>
+<p>
+  In what follows, I outline an alternative approach that exploits the vast
+  quantities of information contained in the PKK’s online presence. The mosaic
+  image above showcases some of this data: it is composed of 19,622 unique
+  images uploaded by the PKK to a website hosting obituaries for their fallen
+  fighters. Using online PKK obituaries and a convolutional neural network, this analysis was able to identify over 300 child
+  soldiers among the ranks of the PKK over the course of the past 20 years.
+</p>
+<p></p>
+      	</div>
+			<div class="wide-img-70">
+				<img src="assets/img/IMG_1.jpg" alt="">
+			</div>
+		<div class="article--center">
+<p></p>
+<p>
+  The woman on the left is Gülnaz Ekinci. She was born in 1986 to her parents
+  Ayşe and Cemil Ekinci. In 2001, at the age of 15, Gülnaz Ekinci joined the PKK and assumed the code
+  name Ronahi Murat. She traveled 1,400 kilometers East to the Zagros mountains
+  in Iran where she trained as a guerilla fighter with an all-female unit.
+</p>
+<p></p>
+      	</div>
+			<div class="wide-img-70">
+				<img src="assets/img/IMG_3.jpg" alt="">
+			</div>
+		<div class="article--center">
+<p></p>
+<p>
+  Over the course of 11 years, Gülnaz participated in a number of PKK operations
+  in Turkey and eventually rose to the rank of Commander. On February 12th,
+  2012, she was killed in the village of Besta, near the Turkish border with
+  Iraq.
+</p>
+<p></p>
+<p>
+  Upon her death, the PKK posted
+  <a
+    href="http://hpgsehit.com/index.php/ehit-kuenyeleri/2012-ehitlerimiz/item/2870"
+    >an obituary online</a
+  >. The timeline of her life listed above was reconstructed using the
+  information contained in this obituary. But Gülnaz is not unique in this regard-- the PKK publishes an
+  identical obituary for every one of its fallen fighters. By automating the
+  gathering, processing, and merging of data, we can gather this level of
+  detailed biographical information for thousands of militants.
+</p>
+<p></p>
+<p>
+  The following section provides a detailed overview of the two-step data collection
+  process:
+</p>
+<p></p>
+<p>
+<br />
+1. Scraping the PKK’s website to collect and annotate images <br />
+2. Using a neural network to estimate age from images <br />
+<br />
+</p>
+<p></p>
+<p>
+  This process yields a database of nearly 20,000 annotated images of 3,664 individual PKK recruits who were
+  killed between 2001 and 2020. The database contains a significant amount of
+  information on each recruit, including their dates of birth, recruitment, and death. The “Analysis” section explores trends in the database, including demographic and longitudinal trends in the recruitment of child soldiers.
+</p>
+<p></p>
+<p><br /><strong><h2>Data Collection</h2></strong></p>
+<p></p>
+<p><br /><strong>1. Scraping the PKK’s website</strong></p>
+<p></p>
+<p>
+  When a fighter is killed, an obituary is posted on a
+  <a href="http://hpgsehit.com/">website</a> run by the PKK’s military wing, the
+  HPG. Under a banner reading “Our Martyrs are our Glory”, the short obituary
+  contains pictures and basic information regarding the fallen fighter:
+</p>
+<p></p>
+	<img src="assets/img/IMG_4.jpg" alt="">
+<p></p>
+<p>
+  Not all obituaries contain all of these fields; the PKK stopped reporting
+  birth and recruitment information after 2012, and other fields are sometimes
+  blank.
+</p>
+<p></p>
+<p>
+  In addition to the biographical information, each obituary contains a set of
+  pictures of the fallen militant:
+</p>
+<p></p>
+
+	<img src="assets/img/IMG_5.jpg" alt="">
+
+<p></p>
+<p>
+  The first step in this analysis is to collect the biographical data contained
+  in these obituaries. To do this, I wrote a python script that navigates the
+  PKK’s obituary website, grabs the information from the biographical fields,
+  and parses it into a dataframe. The result is a spreadsheet in which each row
+  is a militant, and each column contains obituary-derived information.
+</p>
+<p></p>
+<p>
+  This procedure creates a database containing biographical information on 3,664
+  PKK militants who were killed in action. The photographs that accompany each
+  obituary are also scraped, creating a database of nearly 20,000 images.
+</p>
+<p></p>
+<p><br /><strong>2. Age Estimation using a CNN</strong></p>
+<p></p>
+<p>
+  This is a picture of
+  <a
+    href="http://hpgsehit.com/index.php/ehit-kuenyeleri/2015-ehitlerimiz/item/3579"
+    >Zeynep Gasir</a
+  >, who was killed in 2015. Her obituary doesn’t list a birth date or
+  recruitment date, but the pictures show her to be very young. We can get a
+  rough idea of her age using Microsoft’s
+  <a href="https://www.how-old.net/">how-old.net</a> tool, which uses a neural network to predict age and gender based on an image. The estimation
+  suggests that she is roughly 11 years old.
+</p>
+<p></p>
+	<img src="assets/img/IMG_8.jpg" alt="">
+<p></p>
+<p>
+  Because the obituary database contains roughly 20,000 images, inputting them one
+  by one into how-old.net would take a while. I automated this process in
+  python, using this pre-trained
+  <a href="https://talhassner.github.io/home/publication/2015_CVPR"
+    >Convolutional Neural Network (CNN)</a
+  >
+  for age and gender estimation. It predicts the age for each image, and then
+  calculates the average age across all images for the same recruit. This yields
+  a ballpark estimate of a recruit’s age when biographical information is
+  missing.
+</p>
+<p></p>
+<p>
+  It’s worth noting that neural networks are still pretty bad at estimating
+  someone’s precise age. I've tested several different pre-trained CNNs and results were similar. However, even if individual age estimates aren’t very
+  precise, we can still use them to sort the database based on apparent age.
+  Instead of going through 20,000 unsorted images looking for child soldiers, we
+  can sort the database and begin looking at images in ascending order of
+  apparent age, bringing the youngest-looking recruits to the top.
+</p>
+<p></p>
+<p><br /><strong><h2>Analysis</h2></strong></p>
+<p></p>
+<p><br /><br /><strong>How many child soldiers are there in the PKK?</strong></p>
+<p></p>
+<p>
+  To identify child soldiers, we need two pieces of information: the year a
+  recruit was born, and the year they joined the PKK. Both of these dates are
+  listed in the online obituaries for a large number of the individuals in the
+  database, allowing us to plot the distribution of ages at which individuals
+  join the PKK:
+</p>
+<p></p>
+	<img src='assets/img/age_hist.png'>
+<p></p>
+<p>
+  Recruits under the age of 18 are shown in orange, and those under the age of
+  15 are shown in red. The plot above shows that the average age at which
+  individuals join the PKK is 19. By the PKK’s own admission, there were 278
+  child soldiers killed between 2001 and 2012, constituting roughly 30% of the
+  sample for which we have complete information.
+</p>
+<p></p>
+<p>
+  This is likely to be an underestimation for two reasons. First, because
+  recruits who joined as children but are still alive do not have obituaries.
+  Second, because it relies partially on information reported by the PKK, who
+  have an incentive to minimize the number of child soldiers they publicly admit
+  to having recruited. Also, because the PKK stopped reporting birth and
+  recruitment dates in 2012, this method can’t be applied to the 2,230
+  obituaries listed since then.
+</p>
+<p></p>
+<p>
+  The image gallery posted with every obituary can help fill these gaps. The
+  previous section details how a Convolutional Neural Network is used to
+  estimate an individual’s apparent age based on their obituary photographs.
+  When the database is sorted according to these estimates, the youngest-looking
+  photographs are brought to the top of the list. Below are some of the images brought to the top of the dataset (scroll left/right):
+</p>
+<p></p>		
+	</div>				
+		<ul class="hs">
+			<li class="item"><img class='wide' src='assets/img/Minors/minor_1.jpg'></li>
+			<li class="item"><img src='assets/img/Minors/minor_2.jpg'></li>
+			<li class="item"><img class='wide' src='assets/img/Minors/minor_3.jpg'></li>
+			<li class="item"><img class='wide' src='assets/img/Minors/minor_4.jpg'></li>
+			<li class="item"><img src='assets/img/Minors/minor_5.jpg'></li>
+			<li class="item"><img src='assets/img/Minors/minor_6.jpg'></li>
+			<li class="item"><img class='wide' src='assets/img/Minors/minor_7.jpg'></li>
+			<li class="item"><img src='assets/img/Minors/minor_8.jpg'></li>
+			<li class="item"><img class='wide' src='assets/img/Minors/minor_9.jpg'></li>
+			<li class="item"><img class='wide' src='assets/img/Minors/minor_10.jpg'></li>
+		</ul>
+	<div class="article--center">						
+<p>
+  The individuals in these images are visibly underage, and based on the image database there are roughly 70 
+	addititional individuals who appear clearly younger than 18. Hundreds more are borderline cases, however, which
+	are harder to assess.
+</p>
+<p></p>
+<p>
+  This is, again, a very conservative estimate because it relies on the obituary
+  displaying images of the recruit as a child. Even though we know Gülnaz Ekinci
+  joined the PKK at the age of 15, she died at the age of 27 and the images
+  posted in her obituary appear relatively recent; her estimated age based on
+  these images is 28. In total, there are 348 cases of child recruitment: 278 
+	by the PKK's own admission based on the birth and recruitment years, 
+	and 70 additional cases based on the images. The true total, however, is likely to be higher. 
+</p>
+<p><br /><strong>How has the recruitment of child soldiers evolved over time?</strong></p>
+<p></p>
+<p>
+  Below is a bar chart showing the number of recruits who joined the PKK in a
+  given year; blue denotes adult recruits, orange denotes recruits under the age
+  of 18, and red shows recruits under the age of 15.
+</p>
+<p></p>
+	<img src='assets/img/recruit_bar.png'>
+<p></p>
+<p>
+  Two main trends are visible. First, the recruitment of children seems to have
+  been highest in the 1990s, at the height of the conflict. Between 1993 and
+  1996, more children were recruited to the PKK than adults.
+</p>
+<p></p>
+<p>
+  The most obvious trend in this graph is the massive spike in recruitment in
+  1999. On February 15th of that year, the PKK’s founder and leader Abdullah
+  Öcalan was captured and sentenced to death. Kurds in over 20 countries staged
+  protests and in several cases stormed embassies. Several protestors were
+  killed, and two more
+  <a href="https://www.theguardian.com/world/1999/feb/18/kurds.johnhooperself-immolated"></a
+  >. Protests have been held in Turkey on February 15th every year since then.
+  These heightened grievances are the likely cause of the spike in 1999: a
+  former member of the PKK stated in an interview “The arresting and
+  imprisonment of Abdullah Öcalan was effective [sic] in my decision to join the
+  PKK.”
+</p>
+<p></p>
+<p>
+  Though the absolute number of child recruits increased that year, they made up
+  a smaller proportion of the total number of recruits than in previous years.
+  This is especially true of children under the age of 16. After the large wave
+  of recruitment in 1999, the recruitment of children steadily decreased in the
+  following decade.
+</p>
+<p></p>
+<p>
+  Taken together, these two trends seem to suggest that the recruitment of
+  children increases when the PKK is under military pressure. Child soldiers
+  made up the largest share of total recruits in the 1990s when fighting was
+  most intense and recruitment was relatively low. Following a large recruitment
+  event in 1999 and a period of ceasefire, the number of child
+  recruits--especially those under the age of 16-- decreased considerably.
+</p>
+<p></p>
+<p>
+  The graph below shows the number of obituaries listed on the PKK’s website
+  each year.
+</p>
+<p></p>
+	<img src='assets/img/death_bar.png'>  
+<p></p>
+<p>
+  The intensity of the conflict was low until 2011, when large scale hostilities
+  resumed. A drop in casualties resulting from a two-year ceasefire period can
+  be seen in 2013-2014, followed by the current period of high-intensity
+  conflict.
+</p>
+<p></p>
+<p><br /><strong><h2>Conclusion</h2></strong></p>
+<p></p>
+<p>
+  The recruitment of children in armed conflict is a war crime; the reasons for
+  wanting to monitor it are self evident. But the conventional approach of
+  conducting in-person interviews isn’t a feasible way of systematically keeping
+  track of the phenomenon. Imagine trying to understand a phenomenon as complex
+  as the Coronavirus if the only tool you had at your disposal was going door to
+  door (in a war zone). Identifying hotspots, trends over time, and demographic
+  patterns would be utterly unfeasible.
+</p>
+<p></p>
+<p>
+  For a long time, field interviews might have been the only way of gathering
+  information on the recruitment of child soldiers. These days, there is
+  sometimes enough information online to enable basic monitoring. Relying exclusively on the group's online presence, this analysis was able to identify over
+  300 child soldiers among the ranks of the PKK over the course of the past 20
+  years.
+</p>
+      </div>
+
